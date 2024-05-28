@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CRUD cuentas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div id="cont_fondo"> 
+      <div class="container py-4">
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+            <h2>Gestion de cuentas</h2>
+            
+            <div class="card">
+              <div class="card-body" style="background-color: white;">
+                <form action="{% url 'crud_cuentas' %}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <br>
+                    <input type="text" id="nombre_empleado" name="nombre_empleado" class="form-control" placeholder="Nombre de usuario" minlength="4" maxlength="30" required>
+                    <br>
+                    <input type="text" id="nombre_completo" name="nombre_completo" class="form-control" placeholder="Nombre completo" minlength="4" maxlength="30" required>
+                    <br>
+                    <input type="email" id="correo_empleado" name="correo_empleado" class="form-control" placeholder="Correo" minlength="4" maxlength="30" required>
+                    <br>
+                    <input type="number" id="edad_empleado" name="edad_empleado" class="form-control" placeholder="Edad" required>
+                    <br>
+                    <input type="password" id="contraseña_empleado" name="contraseña_empleado" class="form-control" placeholder="Contraseña" minlength="4" maxlength="100" required>
+                    <br>
+                    <label for="cargo" class="form-label">Cargo</label>
+                    <select name="cargo" class="form-control" id="cargo" required>
+                      <option value="" selected disabled>Seleccione cargo</option>
+                      {% for ca in Cargo %}
+                        <option value="{{ ca.idCargo }}">{{ ca.nombreCargo }}</option>
+                      {% endfor %}
+                    </select>
+                    <br>
+                  </div>
+                  <br>
+                  <div class="row" style="margin-left: 50px; display: flex;">
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                    <br>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+            <h1>Lista de Cuentas</h1>
+            <div class="table-responsive py-2">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nombre usuario</th>
+                    <th>Nombre completo </th>
+                    <th>Correo</th>
+                    <th>Edad</th>
+                    <th>Cargo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for p in cuenta %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ p.nombreEmpleado }}</td>
+                    <td>{{ p.nombreCompleto }}</td>
+                    <td>{{ p.correo }}</td>
+                    <td>{{ p.edad }}</td>
+                    <td>{{ p.cargo.nombreCargo }}</td>
+                    <td>
+                      <a href="/EliminarCuenta/{{ p.idEmpleado }}" class="btn btn-danger" id="btneliminar">Eliminar</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</html>
